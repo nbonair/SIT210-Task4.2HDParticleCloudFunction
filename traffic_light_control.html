@@ -1,0 +1,39 @@
+<!<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Traffic light remote control</title>
+    <script src="https://cdn.jsdelivr.net/npm/particle-api-js@8/dist/particle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    var particle = new Particle();
+    const accessToken = '81431a97527cafe79120541a4e61f8b6f8a52c22';
+    const deviceId = 'e00fce688f65be80eadce690';
+  
+
+    function ledControl(cmd){
+      document.getElementById("statusSpan").innerHTML = '';
+
+      particle.callFunction({deviceId, name:'traffic_light_control', argument: cmd, auth:accessToken}).then(
+          function(data) {
+              document.getElementById("statusSpan").innerHTML = 'Call completed';
+          },
+          function(err) {
+              document.getElementById("statusSpan").innerHTML = 'Error calling device: ' + err;
+          }
+      );
+
+
+    }
+  </script>
+  </head>
+
+  <body>
+    <p><button id="ledRedOnButton" onclick="ledControl('red')">LED Red</button>&nbsp;
+      <button id="ledGreenOnButton" onclick="ledControl('green')">LED Green</button>&nbsp;
+      <button id="ledYellowOnButton" onclick="ledControl('yellow')">LED Yellow</button>&nbsp;
+      <button id="ledOffButton" onclick="ledControl('off')">LED Off</button></p>
+    <p>&nbsp;</p>
+    <p><span id="statusSpan"></span></p>
+  </body>
+</html>
